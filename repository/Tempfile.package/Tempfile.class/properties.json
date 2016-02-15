@@ -1,0 +1,14 @@
+{
+	"category" : "Tempfile-Core",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "SeanDeNigris 2/15/2016 11:07",
+	"instvars" : [
+		 ],
+	"name" : "Tempfile",
+	"pools" : [
+		 ],
+	"super" : "FileLocator",
+	"type" : "normal" }
