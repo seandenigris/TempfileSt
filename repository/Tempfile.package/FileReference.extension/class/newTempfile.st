@@ -1,0 +1,3 @@
+*Tempfile
+newTempfile
+	^ Tempfile new

@@ -1,7 +1,5 @@
 instance creation
 endingWith: aString
-	| tempFolder basename |
-	tempFolder := self imageDirectory / 'tmp'.
-	tempFolder ensureCreateDirectory.
-	basename := DateAndTime now printString asLegalSelector, aString.
-	^ tempFolder / basename.
+	| filename |
+	filename := DateAndTime now printString select: [ :c | c isAlphaNumeric or: [ #($-) includes: c ] ].
+	^ FileLocator temp / filename, aString.
