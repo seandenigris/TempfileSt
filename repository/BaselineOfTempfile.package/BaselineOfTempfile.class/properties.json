@@ -1,0 +1,14 @@
+{
+	"category" : "BaselineOfTempfile",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		 ],
+	"name" : "BaselineOfTempfile",
+	"pools" : [
+		 ],
+	"super" : "BaselineOf",
+	"type" : "normal" }
