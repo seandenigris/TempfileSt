@@ -1,7 +1,7 @@
 SmalltalkCISpec {
   #loading : [
     SCIMetacelloLoadSpec {
-      #baseline : 'TempfileSt',
+      #baseline : 'Tempfile',
       #directory : 'repository',
       #platforms : [ #pharo ]
     }
