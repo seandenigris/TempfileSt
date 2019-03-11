@@ -1,5 +1,11 @@
-baseline
-baseline: spec
+Class {
+	#name : #BaselineOfTempfile,
+	#superclass : #BaselineOf,
+	#category : 'BaselineOfTempfile'
+}
+
+{ #category : #baseline }
+BaselineOfTempfile >> baseline: spec [
   <baseline>
 
 	spec for: #'common' do: [
@@ -7,3 +13,5 @@ baseline: spec
 			baseline: 'BabyPhexample' with: [
 				spec repository: 'github://seandenigris/Baby-Phexample:master/repository' ].
 		spec package: 'Tempfile' ].
+
+]

@@ -1,3 +1,0 @@
-*Tempfile
-newTempfile
-	^ Tempfile new
