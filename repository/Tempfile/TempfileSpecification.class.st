@@ -13,9 +13,16 @@ TempfileSpecification >> testCreatingWithSuffix [
 ]
 
 { #category : #tests }
-TempfileSpecification >> testDoDeletesExisting: creationBlock [
+TempfileSpecification >> testNew [
 	| instance |
-	Tempfile do: [ :tf | 
+	instance := Tempfile new.
+	instance parent asFileReference should equal: (FileLocator temp / 'pharo-tempfile') asFileReference.
+]
+
+{ #category : #private }
+TempfileSpecification >> test_deleteAfter_DeletesExisting: creationBlock [
+	| instance |
+	Tempfile new deleteAfter: [ :tf | 
 		instance := tf.
 		tf exists should beFalse.
 		creationBlock value: tf.
@@ -24,22 +31,28 @@ TempfileSpecification >> testDoDeletesExisting: creationBlock [
 ]
 
 { #category : #tests }
-TempfileSpecification >> testDoDeletesExistingDirectory [
+TempfileSpecification >> test_deleteAfter_DeletesExistingDirectory [
 
-	self testDoDeletesExisting: [ :tf | 
+	self test_deleteAfter_DeletesExisting: [ :tf | 
 		tf ensureCreateDirectory.
 		(tf / 'file1.txt') ensureCreateFile ].
 ]
 
 { #category : #tests }
-TempfileSpecification >> testDoDeletesExistingFile [
+TempfileSpecification >> test_deleteAfter_DeletesExistingFile [
 
-	self testDoDeletesExisting: #ensureCreateFile.
+	self test_deleteAfter_DeletesExisting: #ensureCreateFile.
 ]
 
 { #category : #tests }
-TempfileSpecification >> testNew [
-	| instance |
-	instance := Tempfile new.
-	self assert: instance parent fullName equals: FileLocator temp fullName
+TempfileSpecification >> test_deleteAll [
+	3 timesRepeat: [ Tempfile new ensureCreateFile ].
+	3 timesRepeat: [ Tempfile new ensureCreateDirectory ].
+	Tempfile temp hasChildren should beTrue.
+	
+	Tempfile deleteAll.
+	
+	Tempfile temp exists should beTrue.
+	Tempfile temp hasChildren should beFalse.
+	
 ]

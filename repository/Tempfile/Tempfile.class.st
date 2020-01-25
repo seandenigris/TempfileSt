@@ -7,22 +7,37 @@ Class {
 	#category : 'Tempfile-Core'
 }
 
+{ #category : #modifying }
+Tempfile class >> deleteAll [
+	self temp deleteAllChildren
+]
+
 { #category : #'instance creation' }
 Tempfile class >> do: aBlock [
-	| instance |
-	instance := self new.
-	aBlock value: instance.
-	instance exists ifTrue: [ instance deleteAll ]
+	self new deleteAfter: aBlock.
+
 ]
 
 { #category : #'instance creation' }
 Tempfile class >> endingWith: aString [
+	"aString - suffix e.g. `-abc.txt`; could be/contain an extension, but doesn't have to"
 	| filename |
 	filename := DateAndTime now printString select: [ :c | c isAlphaNumeric or: [ '$-' includes: c ] ].
-	^ FileLocator temp / (filename, aString).
+	^ self temp / (filename, aString).
 ]
 
 { #category : #'instance creation' }
 Tempfile class >> new [
 	^ self endingWith: ''.
+]
+
+{ #category : #'instance creation' }
+Tempfile class >> temp [
+	^ super temp / 'pharo-tempfile'
+]
+
+{ #category : #enumerating }
+Tempfile >> deleteAfter: aBlock [
+	[ aBlock value: self ]
+		ensure: [ self exists ifTrue: [ self deleteAll ] ]
 ]
