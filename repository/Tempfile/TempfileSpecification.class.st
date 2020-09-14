@@ -1,14 +1,14 @@
 Class {
 	#name : #TempfileSpecification,
 	#superclass : #TestCase,
-	#category : 'Tempfile-Specification'
+	#category : #'Tempfile-Specification'
 }
 
 { #category : #tests }
 TempfileSpecification >> testCreatingWithSuffix [
 	| instance suffix |
 	suffix := '-000.jpg'.
-	instance := Tempfile endingWith: suffix.
+	instance := Tempfile withSuffix: suffix.
 	self assert: (instance basename endsWith: suffix)
 ]
 
@@ -48,11 +48,11 @@ TempfileSpecification >> test_deleteAfter_DeletesExistingFile [
 TempfileSpecification >> test_deleteAll [
 	3 timesRepeat: [ Tempfile new ensureCreateFile ].
 	3 timesRepeat: [ Tempfile new ensureCreateDirectory ].
-	Tempfile temp hasChildren should beTrue.
+	Tempfile rootFolder hasChildren should beTrue.
 	
 	Tempfile deleteAll.
 	
-	Tempfile temp exists should beTrue.
-	Tempfile temp hasChildren should beFalse.
+	Tempfile rootFolder exists should beTrue.
+	Tempfile rootFolder hasChildren should beFalse.
 	
 ]
