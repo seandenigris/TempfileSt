@@ -161,6 +161,8 @@ Tempfile >> finalize [
 Tempfile >> initialize [
 	super initialize.
 	WeakRegistry default add: self.
+	
+	self class rootFolder ensureCreateDirectory. "While this is not an instance responsibility per se, this seemed like the latest possible time to do this, with the minimum work (e.g. as opposed to sending on every access or creating on image startup), while still ensuring the folder is created before use (otherwise e.g. shell scripts may fail)"
 ]
 
 { #category : #accessing }
