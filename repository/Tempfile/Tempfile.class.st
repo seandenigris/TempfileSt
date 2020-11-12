@@ -91,24 +91,6 @@ Tempfile class >> exampleSimplestInstance [
 	^ instances atRandom
 ]
 
-{ #category : #examples }
-Tempfile class >> exampleWithPrefix [
-	<gtExample>
-	| file |
-	file := self withPrefix: 'prefix'.
-	self assert: (file base beginsWith: 'prefix').
-	^ file
-]
-
-{ #category : #examples }
-Tempfile class >> exampleWithSuffix [
-	<gtExample>
-	| file |
-	file := self withSuffix: 'Suffix'.
-	self assert: (file base endsWith: 'Suffix').
-	^ file
-]
-
 { #category : #'instance creation' }
 Tempfile class >> named: aString [
 	^ self basicNew
@@ -133,9 +115,42 @@ Tempfile class >> withPrefix: aString [
 ]
 
 { #category : #'instance creation' }
+Tempfile class >> withPrefix: prefixString andSuffix: suffixString [
+	^ self named: prefixString, self defaultFilename, suffixString.
+]
+
+{ #category : #examples }
+Tempfile class >> withPrefixAndSuffixExample [
+	<gtExample>
+	| file |
+	file := self withPrefix: 'prefix' andSuffix: 'suffix'.
+	self assert: (file base beginsWith: 'prefix').
+	self assert: (file base endsWith: 'suffix').
+	^ file
+]
+
+{ #category : #examples }
+Tempfile class >> withPrefixExample [
+	<gtExample>
+	| file |
+	file := self withPrefix: 'prefix'.
+	self assert: (file base beginsWith: 'prefix').
+	^ file
+]
+
+{ #category : #'instance creation' }
 Tempfile class >> withSuffix: aString [
 	"aString - suffix e.g. `-abc.txt`; could be/contain an extension, but doesn't have to"
 	^ self named: self defaultFilename, aString.
+]
+
+{ #category : #examples }
+Tempfile class >> withSuffixExample [
+	<gtExample>
+	| file |
+	file := self withSuffix: 'Suffix'.
+	self assert: (file base endsWith: 'Suffix').
+	^ file
 ]
 
 { #category : #deleting }
