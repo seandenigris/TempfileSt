@@ -3,17 +3,16 @@ My reason for existence is to provide access to ''some'' unique location on the 
 # Each instance of me will point to a unique underlying temp file location.
 # The file I represent will be automatically deleted from the filesystem when I am garbage collected.
 !Location on Filesystem
-Although you can just happily use my file - create, write, delete - without worrying, if you're interested in specifics, I will point inside my ${method:Tempfile class>>#rootFolder}$.
+Although you can just happily use my file - create, write, delete - without worrying, if you're interested in specifics, the location I point to will be somewhere inside my ${method:Tempfile class>>#rootFolder}$.
 !Automatic Deletion
 There are two things you should know:
 # You are welcome to manually delete my file if you don't want to wait for me to be garbage collected.
 # Any references you create from me will be ordinary file references, not Tempfiles. For example, ${example:Tempfile class>>#exampleDerivativeFile}$
+NB. Some OSs automatically delete temp files under certain conditions (e.g. *MacOS after unaccessed for three days>https://superuser.com/a/187105*). If this is undesirable for your use case, you may want to override me and change my root folder.
 !File Convenience Methods
+These forward unkown messages to my file, avoiding the inconvenience of needing to explicitly go through my reference object for every file operation
 ${example:Tempfile class>>#exampleFileOperation}$
-This avoids the inconvenience of needing to explicitly go through my reference object for every file operation, e.g.
-[[[language=smalltalk
-Tempfile new reference exists
-]]]
+!Future Research
 For more inspiration in the future, we may explore *http://ruby-doc.org/stdlib-1.9.3/libdoc/tempfile/rdoc/Tempfile.html*
 "
 Class {
