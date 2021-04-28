@@ -168,7 +168,7 @@ Tempfile >> doesNotUnderstand: aMessage [
 
 { #category : #finalization }
 Tempfile >> finalize [
-	self reference exists ifTrue: [ self reference delete ]
+	self reference exists ifTrue: [ self reference deleteAll ]
 ]
 
 { #category : #initialization }
