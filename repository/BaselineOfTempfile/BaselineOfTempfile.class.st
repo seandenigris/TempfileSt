@@ -10,8 +10,9 @@ BaselineOfTempfile >> baseline: spec [
 
 	spec for: #'common' do: [
 		spec
-			baseline: 'BabyPhexample' with: [
-				spec repository: 'github://seandenigris/Baby-Phexample' ].
-		spec package: 'Tempfile' ].
+			baseline: 'Mocketry' with: [
+				spec repository: 'github://dionisiydk/Mocketry' ].
+		spec package: 'Tempfile' with: [
+				spec requires: #('Mocketry' ) ] ].
 
 ]
