@@ -180,6 +180,15 @@ Tempfile >> initialize [
 ]
 
 { #category : #accessing }
+Tempfile >> printOn: aStream [
+
+	self reference printOn: aStream.
+	aStream nextPutAll: ' ('.
+	super printOn: aStream.
+	aStream nextPut: $).
+]
+
+{ #category : #accessing }
 Tempfile >> reference [
 	^ reference
 ]
