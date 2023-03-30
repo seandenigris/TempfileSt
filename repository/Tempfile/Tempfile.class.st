@@ -171,6 +171,18 @@ Tempfile >> finalize [
 	self reference exists ifTrue: [ self reference deleteAll ]
 ]
 
+{ #category : #accessing }
+Tempfile >> gtContentsFor: aView [
+	<gtView>
+	
+	^ aView forward
+		title: 'Contents';
+		priority: 50;
+		object: [ self reference ];
+		view: #gtContentsFor:;
+		yourself
+]
+
 { #category : #initialization }
 Tempfile >> initialize [
 	super initialize.
