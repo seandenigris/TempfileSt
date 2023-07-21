@@ -21,6 +21,9 @@ Class {
 	#instVars : [
 		'reference'
 	],
+	#classVars : [
+		'UniqueFolderSuffix'
+	],
 	#category : #'Tempfile-Core'
 }
 
@@ -105,7 +108,14 @@ Tempfile class >> new [
 
 { #category : #accessing }
 Tempfile class >> rootFolder [
-	^ FileLocator temp / 'pharo-tempfile'
+	^ FileLocator temp / ('pharo-tempfile-', self uniqueFolderSuffix)
+]
+
+{ #category : #accessing }
+Tempfile class >> uniqueFolderSuffix [
+	"We append a image-specific string onto our folder to avoid permission issues. Namely, that a folder created in another image run as a different user will not be accessible"
+
+	^ UniqueFolderSuffix ifNil: [ UniqueFolderSuffix := UUID new asString36 ]
 ]
 
 { #category : #'instance creation' }
