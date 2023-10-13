@@ -182,6 +182,18 @@ Tempfile >> finalize [
 ]
 
 { #category : #accessing }
+Tempfile >> gtActionWebBrowseFor: anAction [
+	<gtAction>
+	
+	self reference exists ifFalse: [ ^ anAction noAction ].
+
+	^ anAction button
+		  icon: BrGlamorousIcons go;
+		  tooltip: 'Open in OS';
+		  action: [ WebBrowser openOn: self reference fullName ]
+]
+
+{ #category : #accessing }
 Tempfile >> gtContentsFor: aView [
 	<gtView>
 	
