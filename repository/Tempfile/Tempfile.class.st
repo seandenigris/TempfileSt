@@ -120,6 +120,12 @@ Tempfile class >> uniqueFolderSuffix [
 ]
 
 { #category : #'instance creation' }
+Tempfile class >> withExtension: aString [
+	
+	^ self withSuffix: '.', aString
+]
+
+{ #category : #'instance creation' }
 Tempfile class >> withPrefix: aString [
 	^ self named: aString, self defaultFilename.
 ]
