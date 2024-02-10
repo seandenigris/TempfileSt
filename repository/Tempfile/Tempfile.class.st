@@ -109,15 +109,7 @@ Tempfile class >> new [
 { #category : #accessing }
 Tempfile class >> rootFolder [
 
-	| osxRealTmp tempFolder |
-	
-	"This nonsense is needed because on OSX, which symlinks tmp, some versions make the link only-root-writable. See https://apple.stackexchange.com/questions/257753/osx-tmp-not-writable-operation-not-permitted"
-	osxRealTmp := '/private/tmp' asFileReference.
-	tempFolder := (OSPlatform current isMacOSX and: [ osxRealTmp exists ])
-		ifFalse: [ FileLocator temp ]
-		ifTrue: [ osxRealTmp ].
-
-	^ tempFolder / ('pharo-tempfile-', self uniqueFolderSuffix)
+	^ FileLocator temp / ('pharo-tempfile-', self uniqueFolderSuffix)
 ]
 
 { #category : #accessing }
