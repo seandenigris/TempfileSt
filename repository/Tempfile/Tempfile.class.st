@@ -221,6 +221,12 @@ Tempfile >> initialize [
 ]
 
 { #category : #accessing }
+Tempfile >> open [
+
+	^ self reference peOpen
+]
+
+{ #category : #accessing }
 Tempfile >> printOn: aStream [
 
 	self reference printOn: aStream.
