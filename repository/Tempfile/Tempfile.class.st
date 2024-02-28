@@ -41,7 +41,6 @@ Tempfile class >> deleteAll [
 { #category : #'instance creation' }
 Tempfile class >> do: aBlock [
 	self new deleteAfter: aBlock.
-
 ]
 
 { #category : #'instance creation' }
