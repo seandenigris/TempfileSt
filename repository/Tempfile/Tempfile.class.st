@@ -93,9 +93,24 @@ Tempfile class >> exampleSimplestInstance [
 ]
 
 { #category : #'instance creation' }
+Tempfile class >> locationForFilename: aString [
+
+	self rootFolder / aString ifAbsent: [ ^ self rootFolder ].
+	
+	self rootFolder directories
+		detect: [ :dir | (dir / aString) exists not ]
+		ifFound: [ :dir | ^ dir ].
+		
+	^ (self rootFolder / UUID new asString36) ensureCreateDirectory
+]
+
+{ #category : #'instance creation' }
 Tempfile class >> named: aString [
+
+	| folder |
+	folder := self locationForFilename: aString.
 	^ self basicNew
-		setReference: self rootFolder / aString;
+		setReference: folder / aString;
 		initialize;
 		yourself
 ]
