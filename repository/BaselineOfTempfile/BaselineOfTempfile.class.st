@@ -10,11 +10,11 @@ BaselineOfTempfile >> baseline: spec [
 
 	spec for: #'common' do: [
 		spec
-			baseline: 'PharoEnhancements' with: [
+			baseline: #'PharoEnhancements' with: [
 				spec repository: 'github://seandenigris/Pharo-Enhancements' ];
-			baseline: 'Mocketry' with: [
+			baseline: #'Mocketry' with: [
 				spec repository: 'github://dionisiydk/Mocketry' ].
-		spec package: 'Tempfile' with: [
-				spec requires: #('PharoEnhancements' 'Mocketry' ) ] ].
+		spec package: #'Tempfile' with: [
+				spec requires: #(PharoEnhancements Mocketry ) ] ].
 
 ]
