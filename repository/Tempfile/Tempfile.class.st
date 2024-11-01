@@ -101,7 +101,7 @@ Tempfile class >> locationForFilename: aString [
 		detect: [ :dir | (dir / aString) exists not ]
 		ifFound: [ :dir | ^ dir ].
 		
-	^ (self rootFolder / UUID new asString36) ensureCreateDirectory
+	^ (self rootFolder / UUID new asString36)
 ]
 
 { #category : #'instance creation' }
@@ -229,9 +229,7 @@ Tempfile >> gtContentsFor: aView [
 { #category : #initialization }
 Tempfile >> initialize [
 	super initialize.
-	WeakRegistry default add: self.
-	
-	self class rootFolder ensureCreateDirectory. "While this is not an instance responsibility per se, this seemed like the latest possible time to do this, with the minimum work (e.g. as opposed to sending on every access or creating on image startup), while still ensuring the folder is created before use (otherwise e.g. shell scripts may fail)"
+	FinalizationRegistry default add: self.
 ]
 
 { #category : #accessing }
@@ -257,5 +255,9 @@ Tempfile >> reference [
 { #category : #private }
 Tempfile >> setReference: aReference [
 	"DANGER: Must not be used by client code. I am a value object. Otherwise, finalization will not delete the right underlying file!"
+	
+	"Create containing folder before use (otherwise e.g. shell scripts may fail)"
+	aReference parent ensureCreateDirectory.
+	
 	reference := aReference
 ]
