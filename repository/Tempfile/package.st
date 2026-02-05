@@ -1,1 +1,1 @@
-Package { #name : #Tempfile }
+Package { #name : 'Tempfile' }

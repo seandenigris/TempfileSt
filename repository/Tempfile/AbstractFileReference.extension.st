@@ -1,6 +1,6 @@
-Extension { #name : #AbstractFileReference }
+Extension { #name : 'AbstractFileReference' }
 
-{ #category : #'*Tempfile' }
+{ #category : '*Tempfile' }
 AbstractFileReference class >> newTempfile [
 	^ Tempfile new
 ]

@@ -16,34 +16,37 @@ ${example:Tempfile class>>#exampleFileOperation}$
 For more inspiration in the future, we may explore *http://ruby-doc.org/stdlib-1.9.3/libdoc/tempfile/rdoc/Tempfile.html*
 "
 Class {
-	#name : #Tempfile,
-	#superclass : #Object,
+	#name : 'Tempfile',
+	#superclass : 'Object',
 	#instVars : [
-		'reference'
+		'reference',
+		'isExternal'
 	],
 	#classVars : [
 		'UniqueFolderSuffix'
 	],
-	#category : #'Tempfile-Core'
+	#category : 'Tempfile-Core',
+	#package : 'Tempfile',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Tempfile class >> defaultFilename [
 	^ DateAndTime now printString select: [ :c | c isAlphaNumeric or: [ '$-' includes: c ] ].
 ]
 
-{ #category : #debugging }
+{ #category : 'debugging' }
 Tempfile class >> deleteAll [
 	self notify: 'This is primarily used for debugging, because my instances will delete their files when they are garbage collected, and doing if from the outside violates encapsulation and may wreak havoc in client code!'.
 	self rootFolder deleteAllChildren
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Tempfile class >> do: aBlock [
 	self new deleteAfter: aBlock.
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Tempfile class >> endingWith: aString [
 	self
 		deprecated: 'endingWith: has been replaced by withSuffix:'
@@ -52,7 +55,7 @@ Tempfile class >> endingWith: aString [
 	^ self withSuffix: aString
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 Tempfile class >> exampleDerivativeFile [
 	<gtExample>
 	| file |
@@ -61,7 +64,7 @@ Tempfile class >> exampleDerivativeFile [
 	^ file
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 Tempfile class >> exampleFileOperation [
 	<gtExample>
 	"I respond to the full file reference API"
@@ -69,7 +72,7 @@ Tempfile class >> exampleFileOperation [
 	
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 Tempfile class >> exampleGarbageCollectDeletesFile [
 	<gtExample>
 	| file reference |
@@ -82,7 +85,7 @@ Tempfile class >> exampleGarbageCollectDeletesFile [
 	self assert: reference exists not.
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 Tempfile class >> exampleSimplestInstance [
 	<gtExample>
 	"These ways are equivalent and are the easiest way to create an instance"
@@ -92,7 +95,7 @@ Tempfile class >> exampleSimplestInstance [
 	^ instances atRandom
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Tempfile class >> locationForFilename: aString [
 
 	self rootFolder / aString ifAbsent: [ ^ self rootFolder ].
@@ -104,7 +107,7 @@ Tempfile class >> locationForFilename: aString [
 	^ (self rootFolder / UUID new asString36)
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Tempfile class >> named: aString [
 
 	| folder |
@@ -115,41 +118,41 @@ Tempfile class >> named: aString [
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Tempfile class >> new [
 	^ self withSuffix: ''
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Tempfile class >> rootFolder [
 
 	^ FileLocator temp / ('pharo-tempfile-', self uniqueFolderSuffix)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Tempfile class >> uniqueFolderSuffix [
 	"We append a image-specific string onto our folder to avoid permission issues. Namely, that a folder created in another image run as a different user will not be accessible"
 
 	^ UniqueFolderSuffix ifNil: [ UniqueFolderSuffix := UUID new asString36 ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Tempfile class >> withExtension: aString [
 	
 	^ self withSuffix: '.', aString
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Tempfile class >> withPrefix: aString [
 	^ self named: aString, self defaultFilename.
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Tempfile class >> withPrefix: prefixString andSuffix: suffixString [
 	^ self named: prefixString, self defaultFilename, suffixString.
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 Tempfile class >> withPrefixAndSuffixExample [
 	<gtExample>
 	| file |
@@ -159,7 +162,7 @@ Tempfile class >> withPrefixAndSuffixExample [
 	^ file
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 Tempfile class >> withPrefixExample [
 	<gtExample>
 	| file |
@@ -168,13 +171,13 @@ Tempfile class >> withPrefixExample [
 	^ file
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Tempfile class >> withSuffix: aString [
 	"aString - suffix e.g. `-abc.txt`; could be/contain an extension, but doesn't have to"
 	^ self named: self defaultFilename, aString.
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 Tempfile class >> withSuffixExample [
 	<gtExample>
 	| file |
@@ -183,26 +186,34 @@ Tempfile class >> withSuffixExample [
 	^ file
 ]
 
-{ #category : #deleting }
+{ #category : 'accessing' }
+Tempfile >> beExternal [
+	"See setter comment"
+	
+	self isExternal: true
+]
+
+{ #category : 'deleting' }
 Tempfile >> deleteAfter: aBlock [
 	"This is only needed for speedier deletion because I will otherwise delete my file when I am garbage collected"
 	[ aBlock value: self ]
 		ensure: [ self reference exists ifTrue: [ self reference deleteAll ] ]
 ]
 
-{ #category : #'reflective operations' }
+{ #category : 'reflective operations' }
 Tempfile >> doesNotUnderstand: aMessage [
 	^ (self reference respondsTo: aMessage selector)
 		ifTrue: [ aMessage sendTo: self reference ]
 		ifFalse: [ super doesNotUnderstand: aMessage ]
 ]
 
-{ #category : #finalization }
+{ #category : 'finalization' }
 Tempfile >> finalize [
+	self isExternal ifTrue: [ ^ self ].
 	self reference exists ifTrue: [ self reference deleteAll ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Tempfile >> gtActionWebBrowseFor: anAction [
 	<gtAction>
 	
@@ -214,7 +225,7 @@ Tempfile >> gtActionWebBrowseFor: anAction [
 		  action: [ WebBrowser openOn: self reference fullName ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Tempfile >> gtContentsFor: aView [
 	<gtView>
 	
@@ -226,19 +237,33 @@ Tempfile >> gtContentsFor: aView [
 		yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 Tempfile >> initialize [
 	super initialize.
 	FinalizationRegistry default add: self.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
+Tempfile >> isExternal [
+	"See setter comment"
+	
+	^ isExternal ifNil: [ false ]
+]
+
+{ #category : 'accessing' }
+Tempfile >> isExternal: anObject [
+	"Whether to delete during garbage collection"
+	
+	isExternal := anObject
+]
+
+{ #category : 'accessing' }
 Tempfile >> open [
 
 	^ self reference peOpen
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Tempfile >> printOn: aStream [
 
 	self reference printOn: aStream.
@@ -247,12 +272,12 @@ Tempfile >> printOn: aStream [
 	aStream nextPut: $).
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Tempfile >> reference [
 	^ reference
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 Tempfile >> setReference: aReference [
 	"DANGER: Must not be used by client code. I am a value object. Otherwise, finalization will not delete the right underlying file!"
 	

@@ -1,10 +1,12 @@
 Class {
-	#name : #TempfileSpecification,
-	#superclass : #TestCase,
-	#category : #'Tempfile-Specification'
+	#name : 'TempfileSpecification',
+	#superclass : 'TestCase',
+	#category : 'Tempfile-Specification',
+	#package : 'Tempfile',
+	#tag : 'Specification'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 TempfileSpecification >> testCreatingWithSuffix [
 	| instance suffix |
 	suffix := '-000.jpg'.
@@ -12,14 +14,14 @@ TempfileSpecification >> testCreatingWithSuffix [
 	self assert: (instance basename endsWith: suffix)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TempfileSpecification >> testNew [
 	| instance |
 	instance := Tempfile new.
 	instance parent asFileReference should equal: (FileLocator temp / 'pharo-tempfile') asFileReference.
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 TempfileSpecification >> test_deleteAfter_DeletesExisting: creationBlock [
 	| instance |
 	Tempfile new deleteAfter: [ :tf | 
@@ -30,7 +32,7 @@ TempfileSpecification >> test_deleteAfter_DeletesExisting: creationBlock [
 	instance exists should be: false.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TempfileSpecification >> test_deleteAfter_DeletesExistingDirectory [
 
 	self test_deleteAfter_DeletesExisting: [ :tf | 
@@ -38,13 +40,13 @@ TempfileSpecification >> test_deleteAfter_DeletesExistingDirectory [
 		(tf / 'file1.txt') ensureCreateFile ].
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TempfileSpecification >> test_deleteAfter_DeletesExistingFile [
 
 	self test_deleteAfter_DeletesExisting: #ensureCreateFile.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TempfileSpecification >> test_deleteAll [
 	3 timesRepeat: [ Tempfile new ensureCreateFile ].
 	3 timesRepeat: [ Tempfile new ensureCreateDirectory ].
